@@ -1,0 +1,60 @@
+.header {
+  /* width: 1184px; */
+  display: flex;
+  align-items: center;
+  padding: 20px 128px;
+}
+
+.linkContainer {
+  display: flex;
+  align-items: center;
+  gap: 268px;
+}
+
+.linkContainerItem {
+  margin-left: 390px;
+  display: flex;
+  gap: 28px;
+}
+
+.link {
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 125%;
+  color: #121417;
+}
+
+.icon {
+  stroke: #9fb7ce;
+  fill: none;
+}
+
+.buttonContainer {
+  display: flex;
+}
+
+.buttonContainerItem {
+  background: none;
+  border: none;
+  outline: none;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 125%;
+  color: #121417;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
+}
+
+.registartionButton {
+  border-radius: 12px;
+  padding: 14px 39px;
+  background: #121417;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 125%;
+  color: #fff;
+  border: none;
+}
