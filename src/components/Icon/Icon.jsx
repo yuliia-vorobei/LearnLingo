@@ -7,7 +7,7 @@ const Icon = ({ id, width, height, className = "", fill }) => {
       aria-hidden="true"
       fill={fill}
     >
-      <use xlinkHref={`/icons.svg#${id}`}></use>
+      <use href={`/icons.svg#${id}`}></use>
     </svg>
   );
 };

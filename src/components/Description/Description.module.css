@@ -1,13 +1,12 @@
 .container {
   padding: 40px 123px;
-  list-style-type: none;
   border: 2.5px dashed #9fb7ce;
-
   border-radius: 30px;
   width: 1312px;
   height: 116px;
   display: flex;
   gap: 100px;
+  margin-bottom: 32px;
 }
 
 .list {

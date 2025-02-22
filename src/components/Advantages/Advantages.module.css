@@ -42,17 +42,9 @@
   border-radius: 12px;
   padding: 16px 88px;
   height: 60px;
-  background-color: #bfd6ea;
   font-weight: 700;
   font-size: 18px;
   line-height: 156%;
   color: #121417;
-  border-color: transparent;
-  cursor: pointer;
   display: flex;
-}
-
-.button:active,
-.button:hover {
-  background-color: #adcbe7;
 }

@@ -10,7 +10,7 @@ export const fetchTeachersInfo = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(`/.json`);
-      console.log(response);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       //   error.status === 404 && toast.error("Not found");

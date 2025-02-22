@@ -4,19 +4,19 @@ import { fetchTeachersInfo } from "./operations";
 const teachersSlice = createSlice({
   name: "teachers",
   initialState: {
-    teachers: [],
+    items: [],
     isLoading: false,
     error: null,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTeachersInfo.pending, (state, action) => {
+      .addCase(fetchTeachersInfo.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchTeachersInfo.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.teachers = action.payload;
+        state.items = action.payload;
       })
       .addCase(fetchTeachersInfo.rejected, (state, action) => {
         state.isLoading = false;

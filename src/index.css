@@ -34,7 +34,13 @@ img {
 }
 
 button {
-  background: none;
+  background: #bfd6ea;
   border: none;
   outline: none;
+}
+
+button:focus,
+button:hover {
+  background-color: #adcbe7;
+  cursor: pointer;
 }
