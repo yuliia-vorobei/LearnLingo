@@ -1,11 +1,13 @@
+import { useState } from "react";
 import Icon from "../Icon/Icon";
+import { Reviews } from "../Reviews/Reviews";
+import { TrialLessonModal } from "../TrialLessonModal/TrialLessonModal";
 import css from "./TeacherCard.module.css";
-import { FaUserCircle } from "react-icons/fa";
 
-export const TeacherCard = ({ items }) => {
-  function setRating(rating) {
-    return `${rating}.${"0"}`;
-  }
+export const TeacherCard = ({ items, readMoreBtn, setReadMoreBtn }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpen = () => setIsModalOpen(true);
+  const handleClose = () => setIsModalOpen(false);
 
   return (
     <>
@@ -24,102 +26,110 @@ export const TeacherCard = ({ items }) => {
             rating,
             reviews,
             surname,
-            id,
-          }) => (
-            <li key={items[id]} className={css.item}>
-              <img src={avatar_url} alt="Teacher" className={css.image} />
-              <div className={css.infoContainer}>
-                <div className={css.infoContainerItem}>
-                  <p className={css.additionalInfo}>Languages</p>
+          }) => {
+            const isOpen = readMoreBtn === avatar_url;
 
-                  <div className={css.descriptionContainer}>
-                    <div className={css.iconContainer}>
-                      <Icon
-                        id="icon-book"
-                        width={16}
-                        height={16}
-                        className={css.iconBook}
-                      />
-                      <p className={css.description}>Lessons online</p>
-                    </div>
+            return (
+              <li key={avatar_url} className={css.item}>
+                <img src={avatar_url} alt="Teacher" className={css.image} />
+                <div className={css.infoContainer}>
+                  <div className={css.infoContainerItem}>
+                    <p className={css.additionalInfo}>Languages</p>
 
-                    <p className={css.description}>
-                      Lessons done: {lessons_done}
-                    </p>
-
-                    <div className={css.iconContainer}>
-                      <Icon
-                        id="icon-Star"
-                        width={16}
-                        height={16}
-                        className={css.iconStar}
-                        fill="#ffc531"
-                      />
-                      <p className={css.description}>Rating: {rating}</p>
-                    </div>
-
-                    <p className={css.description}>
-                      Price / 1 hour:
-                      <span className={css.price}> {price_per_hour}$</span>
-                    </p>
-                    <Icon
-                      id="icon-heart"
-                      width={26}
-                      height={26}
-                      className={css.iconHeart}
-                    />
-                  </div>
-                </div>
-                <h2 className={css.title}>
-                  {[name, surname].filter(Boolean).join(" ")}
-                </h2>
-                <p className={css.additionalInfo}>
-                  Speaks:{" "}
-                  <span className={css.additionalInfoItem}>
-                    {languages.join(", ")}
-                  </span>
-                </p>
-                <p className={css.additionalInfo}>
-                  Lesson Info:{" "}
-                  <span className={css.additionalInfoItem}>{lesson_info}</span>
-                </p>
-                <p className={css.additionalInfo}>
-                  Conditions:{" "}
-                  <span className={css.additionalInfoItem}>{conditions}</span>
-                </p>
-                <p className={css.experienceInfo}>{experience}</p>
-                {reviews.map(({ comment, reviewer_name, reviewer_rating }) => (
-                  <div key={comment} className={css.reviewContainer}>
-                    <FaUserCircle className={css.reviewerIcon} />
-                    <div className={css.contentContainer}>
-                      <div className={css.topRow}>
-                        <p className={css.additionalInfo}>{reviewer_name}</p>
-                        <div className={css.ratingContainer}>
-                          <Icon
-                            id="icon-Star"
-                            width={16}
-                            height={16}
-                            className={css.iconStar}
-                          />
-                          <p>{setRating(reviewer_rating)}</p>
-                        </div>
+                    <div className={css.descriptionContainer}>
+                      <div className={css.iconContainer}>
+                        <Icon
+                          id="icon-book"
+                          width={16}
+                          height={16}
+                          className={css.iconBook}
+                        />
+                        <p className={css.description}>Lessons online</p>
                       </div>
-                      <p className={css.reviewComment}>{comment}</p>
+
+                      <p className={css.description}>
+                        Lessons done: {lessons_done}
+                      </p>
+
+                      <div className={css.iconContainer}>
+                        <Icon
+                          id="icon-Star"
+                          width={16}
+                          height={16}
+                          className={css.iconStar}
+                          fill="#ffc531"
+                        />
+                        <p className={css.description}>Rating: {rating}</p>
+                      </div>
+
+                      <p className={css.description}>
+                        Price / 1 hour:
+                        <span className={css.price}> {price_per_hour}$</span>
+                      </p>
+                      <Icon
+                        id="icon-heart"
+                        width={26}
+                        height={26}
+                        className={css.iconHeart}
+                      />
                     </div>
                   </div>
-                ))}
-
-                <div className={css.levelContainer}>
-                  {levels.map((level, index) => (
-                    <span key={index} className={css.languageLevel}>
-                      #{level}
+                  <h2 className={css.title}>
+                    {[name, surname].filter(Boolean).join(" ")}
+                  </h2>
+                  <p className={css.additionalInfo}>
+                    Speaks:{" "}
+                    <span className={css.additionalInfoItem}>
+                      {languages.join(", ")}
                     </span>
-                  ))}
+                  </p>
+                  <p className={css.additionalInfo}>
+                    Lesson Info:{" "}
+                    <span className={css.additionalInfoItem}>
+                      {lesson_info}
+                    </span>
+                  </p>
+                  <p className={css.additionalInfo}>
+                    Conditions:{" "}
+                    <span className={css.additionalInfoItem}>{conditions}</span>
+                  </p>
+
+                  {!isOpen && (
+                    <button
+                      className={css.readMoreBtn}
+                      onClick={() => setReadMoreBtn(isOpen ? null : avatar_url)}
+                    >
+                      Read more
+                    </button>
+                  )}
+
+                  {isOpen && (
+                    <Reviews reviews={reviews} experience={experience} />
+                  )}
+
+                  <div className={css.levelContainer}>
+                    {levels.map((level, index) => (
+                      <span key={index} className={css.languageLevel}>
+                        #{level}
+                      </span>
+                    ))}
+                  </div>
+                  <button className={css.button} onClick={handleOpen}>
+                    Book trial lesson
+                  </button>
+                  {isModalOpen && (
+                    <TrialLessonModal
+                      name={name}
+                      surname={surname}
+                      avatar={avatar_url}
+                      items={items}
+                      onClose={handleClose}
+                    />
+                  )}
                 </div>
-                <button className={css.button}>Book trial lesson</button>
-              </div>
-            </li>
-          )
+              </li>
+            );
+          }
         )}
       </ul>
     </>

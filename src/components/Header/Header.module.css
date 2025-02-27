@@ -35,7 +35,6 @@
 
 .buttonContainerItem {
   background: none;
-  border: none;
   outline: none;
   font-weight: 700;
   font-size: 16px;
@@ -47,7 +46,13 @@
   margin-right: 16px;
 }
 
-.registartionButton {
+.buttonContainerItem:hover,
+.buttonContainerItem:focus {
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.registrationButton {
   border-radius: 12px;
   padding: 14px 39px;
   background: #121417;
@@ -56,4 +61,10 @@
   line-height: 125%;
   color: #fff;
   border: none;
+}
+
+.registrationButton:hover,
+.registrationButton:focus {
+  background: #121417;
+  cursor: pointer;
 }

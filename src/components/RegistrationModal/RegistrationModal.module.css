@@ -1,0 +1,75 @@
+.text {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 137%;
+  color: rgba(18, 20, 23, 0.8);
+  margin-bottom: 40px;
+  width: 438px;
+}
+
+.form {
+  display: flex;
+  gap: 18px;
+  width: 438px;
+  flex-direction: column;
+}
+
+.input {
+  border: 1px solid rgba(18, 20, 23, 0.1);
+  border-radius: 12px;
+  padding: 16px 18px;
+  width: 438px;
+  height: 54px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 137%;
+  color: #121417;
+}
+
+.passwordContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.inputPassword {
+  border: 1px solid rgba(18, 20, 23, 0.1);
+  border-radius: 12px;
+  padding: 16px 18px;
+  width: 438px;
+  height: 54px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 137%;
+  color: #121417;
+  margin-bottom: 18px;
+}
+
+.bookBtn {
+  border-radius: 12px;
+  width: 438px;
+  height: 60px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 156%;
+  color: #121417;
+}
+
+.icon {
+  stroke: #121417;
+  fill: none;
+}
+
+.iconbutton {
+  background: none;
+  width: 20px;
+  position: absolute;
+  top: 20%;
+  left: 90%;
+  height: 20px;
+}
+
+.iconbutton:hover,
+.iconbutton:focus {
+  background: none;
+}

@@ -1,0 +1,59 @@
+.experienceInfo {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: #121417;
+  margin-top: 8px;
+  margin-bottom: 32px;
+}
+
+.reviewerIcon {
+  width: 44px;
+  height: 44px;
+}
+
+.reviewContainer {
+  display: flex;
+  gap: 12px;
+}
+
+.topRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  /* flex: 1; */
+}
+
+.additionalInfo {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: #8a8a89;
+}
+
+.ratingContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 129%;
+  color: #121417;
+}
+
+.iconStar {
+  fill: #ffc531;
+}
+
+.reviewComment {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: #121417;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}

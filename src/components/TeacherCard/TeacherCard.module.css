@@ -17,7 +17,7 @@
 .infoContainerItem {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 192px;
 }
 
 .iconBook {
@@ -32,7 +32,6 @@
 .iconHeart {
   fill: none;
   stroke: #000;
-  margin-left: 64px;
 }
 
 .image {
@@ -77,55 +76,6 @@
   color: #121417;
 }
 
-.experienceInfo {
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 150%;
-  color: #121417;
-  margin-top: 8px;
-  margin-bottom: 32px;
-}
-
-.reviewerIcon {
-  width: 44px;
-  height: 44px;
-}
-
-.ratingContainer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 129%;
-  color: #121417;
-}
-
-.reviewContainer {
-  display: flex;
-  gap: 12px;
-}
-
-.topRow {
-  display: flex;
-  flex-direction: column;
-}
-
-.contentContainer {
-  display: flex;
-  flex-direction: column;
-  /* flex: 1; */
-}
-
-.reviewComment {
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 150%;
-  color: #121417;
-  margin-top: 16px;
-  margin-bottom: 32px;
-}
-
 .levelContainer {
   margin-bottom: 32px;
 }
@@ -160,10 +110,27 @@
   padding: 16px 48px;
   width: 232px;
   height: 60px;
-  background: #bfd6ea;
   font-weight: 700;
   font-size: 18px;
   line-height: 156%;
   color: #121417;
   margin-bottom: 24px;
+}
+
+.readMoreBtn {
+  background: none;
+  margin-top: 16px;
+  margin-bottom: 32px;
+  fill: none;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  color: #121417;
+}
+
+.readMoreBtn:active,
+.readMoreBtn:hover {
+  background: none;
 }

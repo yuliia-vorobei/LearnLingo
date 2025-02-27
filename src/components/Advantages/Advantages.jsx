@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import css from "./Advantages.module.css";
 
 export const Advantages = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={css.container}>
       <h1 className={css.title}>
@@ -12,7 +15,9 @@ export const Advantages = () => {
         Elevate your language proficiency to new heights by connecting with
         highly qualified and experienced tutors.
       </p>
-      <button className={css.button}>Get started</button>
+      <button className={css.button} onClick={() => navigate("/teachers")}>
+        Get started
+      </button>
     </div>
   );
 };

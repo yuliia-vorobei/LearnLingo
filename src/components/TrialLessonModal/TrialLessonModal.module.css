@@ -1,0 +1,99 @@
+.modal {
+  width: 599px;
+}
+
+.image {
+  border-radius: 100px;
+  width: 44px;
+  height: 44px;
+}
+
+.experienceText {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 137%;
+  color: rgba(18, 20, 23, 0.8);
+  margin-bottom: 20px;
+}
+
+.imgContainer {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.teacherBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.teacherBlockItem {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 133%;
+  color: #8a8a89;
+}
+
+.teachersName {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: #121417;
+}
+
+.reasonsBlock {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 133%;
+  color: #121417;
+  margin-bottom: 20px;
+}
+
+.formBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 137%;
+  color: #121417;
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  border: 1px solid rgba(18, 20, 23, 0.1);
+  border-radius: 12px;
+  padding: 16px 18px;
+  width: 472px;
+  height: 54px;
+}
+
+input::placeholder {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 137%;
+  color: #121417;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.bookBtn {
+  border-radius: 12px;
+  padding: 16px 215px;
+  width: 472px;
+  height: 60px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 156%;
+  color: #121417;
+}
