@@ -1,14 +1,15 @@
-import { useState } from "react";
 import Icon from "../Icon/Icon";
 import { Reviews } from "../Reviews/Reviews";
 import { TrialLessonModal } from "../TrialLessonModal/TrialLessonModal";
 import css from "./TeacherCard.module.css";
 
-export const TeacherCard = ({ items, readMoreBtn, setReadMoreBtn }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpen = () => setIsModalOpen(true);
-  const handleClose = () => setIsModalOpen(false);
-
+export const TeacherCard = ({
+  items,
+  readMoreBtn,
+  setReadMoreBtn,
+  bookTrial,
+  setBookTrial,
+}) => {
   return (
     <>
       <ul className={css.list}>
@@ -28,7 +29,7 @@ export const TeacherCard = ({ items, readMoreBtn, setReadMoreBtn }) => {
             surname,
           }) => {
             const isOpen = readMoreBtn === avatar_url;
-
+            const isBookTrialOpen = bookTrial === avatar_url;
             return (
               <li key={avatar_url} className={css.item}>
                 <img src={avatar_url} alt="Teacher" className={css.image} />
@@ -114,16 +115,20 @@ export const TeacherCard = ({ items, readMoreBtn, setReadMoreBtn }) => {
                       </span>
                     ))}
                   </div>
-                  <button className={css.button} onClick={handleOpen}>
-                    Book trial lesson
-                  </button>
-                  {isModalOpen && (
+                  {!isBookTrialOpen && (
+                    <button
+                      className={css.button}
+                      onClick={() => setBookTrial(isOpen ? null : avatar_url)}
+                    >
+                      Book trial lesson
+                    </button>
+                  )}
+                  {isBookTrialOpen && (
                     <TrialLessonModal
                       name={name}
                       surname={surname}
                       avatar={avatar_url}
-                      items={items}
-                      onClose={handleClose}
+                      onClose={() => setBookTrial(isOpen ? avatar_url : null)}
                     />
                   )}
                 </div>

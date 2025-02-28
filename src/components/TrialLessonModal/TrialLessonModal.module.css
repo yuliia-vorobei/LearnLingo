@@ -1,5 +1,6 @@
 .modal {
   width: 599px;
+  top: 60%;
 }
 
 .image {
@@ -14,6 +15,7 @@
   line-height: 137%;
   color: rgba(18, 20, 23, 0.8);
   margin-bottom: 20px;
+  width: 472px;
 }
 
 .imgContainer {
@@ -48,6 +50,7 @@
   line-height: 133%;
   color: #121417;
   margin-bottom: 20px;
+  width: 472px;
 }
 
 .formBlock {
@@ -72,6 +75,9 @@
   padding: 16px 18px;
   width: 472px;
   height: 54px;
+}
+.error {
+  color: red;
 }
 
 input::placeholder {

@@ -1,5 +1,5 @@
 .backdrop {
-  background-color: rgba(0, 0, 0, 0.033) !important;
+  background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
   left: 0;
@@ -7,7 +7,7 @@
   height: 100%;
   overflow: scroll;
   z-index: 9999;
-  overscroll-behavior: none;
+  /* overscroll-behavior: none; */
 }
 
 .modal {
@@ -15,7 +15,7 @@
   padding-top: 20px;
   padding-right: 20px;
   left: 50%;
-  top: 70%;
+  top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 30px;
   width: 599px;

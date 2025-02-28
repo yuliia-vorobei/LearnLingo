@@ -1,19 +1,46 @@
 import { useState } from "react";
 import css from "./TrialLessonModal.module.css";
 import Modal from "../Modal/Modal";
+import * as Yup from "yup";
 
 export const TrialLessonModal = ({ name, surname, avatar, onClose }) => {
   const [languagePurpose, setLanguagePurpose] = useState("career");
+  const [errors, setErrors] = useState({});
+
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .min(3, "Name must be at least 3 characters")
+      .required("Name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    phone: Yup.string()
+      .matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number")
+      .required("Phone number is required"),
+  });
 
   const handlePurposeChange = (event) => {
     setLanguagePurpose(event.target.value);
   };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
-    form.reset();
-    onClose();
+    const formData = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim,
+    };
+
+    try {
+      await validationSchema.validate(formData, { abortEarly: false });
+      setErrors({});
+      form.reset();
+      onClose();
+    } catch (validationErrors) {
+      const formattedErrors = {};
+      validationErrors.inner.forEach((error) => {
+        formattedErrors[error.path] = error.message;
+      });
+      setErrors(formattedErrors);
+    }
   };
 
   return (
@@ -100,18 +127,24 @@ export const TrialLessonModal = ({ name, surname, avatar, onClose }) => {
             placeholder="Full Name"
             className={css.input}
           ></input>
+          {errors.name && <p className={css.error}>{errors.name}</p>}
+
           <input
             type="email"
             name="email"
             placeholder="Email"
             className={css.input}
           ></input>
+          {errors.email && <p className={css.error}>{errors.email}</p>}
+
           <input
             type="tel"
-            name="phoneNumber"
+            name="phone"
             placeholder="Phone number"
             className={css.input}
           ></input>
+          {errors.phone && <p className={css.error}>{errors.phone}</p>}
+
           <button type="submit" className={css.bookBtn}>
             Book
           </button>

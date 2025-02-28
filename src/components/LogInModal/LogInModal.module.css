@@ -19,6 +19,10 @@
   color: #121417;
 }
 
+.error {
+  color: red;
+}
+
 .passwordContainer {
   display: flex;
   align-items: center;

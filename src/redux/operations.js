@@ -7,26 +7,36 @@ axios.defaults.baseURL =
 
 export const fetchTeachersInfo = createAsyncThunk(
   "teachers/fetchAll",
-  async (_, thunkAPI) => {
+  async ({ limit = 4, startKey = null }, thunkAPI) => {
     try {
-      const response = await axios.get(`/.json`);
-      console.log(response.data);
-      return response.data;
+      let url = `/.json?orderBy="$key"&limitToFirst=${limit + 1}`; // Fetching extra teacher to prevent duplication
+
+      if (startKey) {
+        url += `&startAt="${startKey}"`;
+      }
+
+      const response = await axios.get(url);
+      if (!response.data) return { items: [], lastKey: null };
+
+      const teachers = response.data;
+      const filteredKeys = Object.keys(teachers);
+      if (startKey && filteredKeys[0] === startKey) {
+        filteredKeys.shift(); // Remove the duplicate only if it matches startKey
+      }
+
+      const filteredItems = filteredKeys
+        .map((key) => teachers[key])
+        .filter((t) => t !== null);
+
+      const lastKey =
+        filteredKeys.length > 0 ? filteredKeys[filteredKeys.length - 1] : null;
+
+      console.log("Current startKey:", startKey);
+      console.log("Fetching URL:", url);
+      return { items: filteredItems, lastKey };
     } catch (error) {
       //   error.status === 404 && toast.error("Not found");
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
-
-// export const getTruckDetails = createAsyncThunk(
-//   "transport/fetchTruckDetail",
-//   async (id, thunkAPI) => {
-//     try {
-//       const response = await axios.get(`/campers/${id}`);
-//       return response.data;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );

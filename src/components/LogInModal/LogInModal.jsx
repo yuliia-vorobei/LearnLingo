@@ -2,15 +2,39 @@ import { useState } from "react";
 import Modal from "../Modal/Modal";
 import css from "./LogInModal.module.css";
 import Icon from "../Icon/Icon";
+import * as Yup from "yup";
 
 export const LogInModal = ({ onClose }) => {
   const [visiblePassword, setVisiblePassword] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = (event) => {
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+  });
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
-    form.reset();
-    onClose();
+    const formData = {
+      email: form.email.value.trim(),
+      password: form.password.value.trim(),
+    };
+
+    try {
+      await validationSchema.validate(formData, { abortEarly: false });
+      setErrors({});
+      form.reset();
+      onClose();
+    } catch (validationErrors) {
+      const formattedErrors = {};
+      validationErrors.inner.forEach((error) => {
+        formattedErrors[error.path] = error.message;
+      });
+      setErrors(formattedErrors);
+    }
   };
 
   return (
@@ -26,6 +50,8 @@ export const LogInModal = ({ onClose }) => {
           placeholder="Email"
           className={css.input}
         ></input>
+        {errors.email && <p className={css.error}>{errors.email}</p>}
+
         <div className={css.passwordContainer}>
           <input
             type={visiblePassword ? "text" : "password"}
@@ -48,6 +74,7 @@ export const LogInModal = ({ onClose }) => {
             />
           </button>
         </div>
+        {errors.password && <p className={css.error}>{errors.password}</p>}
         <button type="submit" className={css.bookBtn}>
           Log In
         </button>
