@@ -3,10 +3,16 @@ import Modal from "../Modal/Modal";
 import css from "./LogInModal.module.css";
 import Icon from "../Icon/Icon";
 import * as Yup from "yup";
+import { Loader } from "../Loader/Loader";
+import toast, { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/auth/operations";
 
 export const LogInModal = ({ onClose }) => {
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -17,6 +23,7 @@ export const LogInModal = ({ onClose }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const form = event.target;
     const formData = {
       email: form.email.value.trim(),
@@ -25,15 +32,25 @@ export const LogInModal = ({ onClose }) => {
 
     try {
       await validationSchema.validate(formData, { abortEarly: false });
-      setErrors({});
+      const user = await dispatch(loginUser(formData)).unwrap();
+      console.log("User logged in successfully:", user);
+      // setErrors({});
       form.reset();
+      toast.success("You are succesfully logged in!");
       onClose();
-    } catch (validationErrors) {
-      const formattedErrors = {};
-      validationErrors.inner.forEach((error) => {
-        formattedErrors[error.path] = error.message;
-      });
-      setErrors(formattedErrors);
+    } catch (error) {
+      if (error.inner) {
+        // Yup validation errors
+        const formattedErrors = {};
+        error.inner.forEach((err) => {
+          formattedErrors[err.path] = err.message;
+        });
+        setErrors(formattedErrors);
+      } else {
+        toast.error(error.message || "Something went wrong. Try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,10 +92,22 @@ export const LogInModal = ({ onClose }) => {
           </button>
         </div>
         {errors.password && <p className={css.error}>{errors.password}</p>}
+        {loading && <Loader />}
+
         <button type="submit" className={css.bookBtn}>
           Log In
         </button>
       </form>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#F2F4F7",
+            color: "#101828",
+          },
+        }}
+      />
     </Modal>
   );
 };

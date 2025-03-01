@@ -3,10 +3,16 @@ import Modal from "../Modal/Modal";
 import css from "./RegistrationModal.module.css";
 import Icon from "../Icon/Icon";
 import * as Yup from "yup";
+import { Loader } from "../Loader/Loader";
+import { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../redux/auth/operations.js";
 
 export const RegistrationModal = ({ onClose }) => {
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -20,6 +26,8 @@ export const RegistrationModal = ({ onClose }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
+
     const form = event.target;
     const formData = {
       name: form.name.value.trim(),
@@ -27,22 +35,44 @@ export const RegistrationModal = ({ onClose }) => {
       password: form.password.value.trim(),
     };
 
+    console.log("Submitting form data:", formData);
+
     try {
       await validationSchema.validate(formData, { abortEarly: false });
-      setErrors({});
+      const user = await dispatch(registerUser(formData)).unwrap();
+      console.log("User registered successfully:", user);
       form.reset();
       onClose();
-    } catch (validationErrors) {
-      const formattedErrors = {};
-      validationErrors.inner.forEach((error) => {
-        formattedErrors[error.path] = error.message;
-      });
-      setErrors(formattedErrors);
+      console.log("Modal should close now");
+    } catch (error) {
+      if (error.inner) {
+        // Yup validation errors
+        const formattedErrors = {};
+        error.inner.forEach((err) => {
+          formattedErrors[err.path] = err.message;
+        });
+        setErrors(formattedErrors);
+      } else {
+        // Firebase errors
+        setErrors({ firebase: error.message });
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Modal title="Registration" classNameModal={css.modal} onClose={onClose}>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#F2F4F7",
+            color: "#101828",
+          },
+        }}
+      />
       <p className={css.text}>
         Thank you for your interest in our platform! In order to register, we
         need some information. Please provide us with the following information
@@ -87,7 +117,7 @@ export const RegistrationModal = ({ onClose }) => {
           </button>
         </div>
         {errors.password && <p className={css.error}>{errors.password}</p>}
-
+        {loading && <Loader />}
         <button type="submit" className={css.bookBtn}>
           Sign Up
         </button>

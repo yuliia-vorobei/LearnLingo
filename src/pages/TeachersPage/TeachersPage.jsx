@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTeachersInfo } from "../../redux/operations";
+import { fetchTeachersInfo } from "../../redux/teachers/operations";
 import { useEffect, useState } from "react";
 import { TeacherCard } from "../../components/TeacherCard/TeacherCard";
 import { Loader } from "../../components/Loader/Loader";
 import css from "./TeachersPage.module.css";
-import { resetTeachers } from "../../redux/teachersSlice";
+import { resetTeachers } from "../../redux/teachers/teachersSlice";
 
 const TeachersPage = () => {
   const [readMoreBtn, setReadMoreBtn] = useState(null);

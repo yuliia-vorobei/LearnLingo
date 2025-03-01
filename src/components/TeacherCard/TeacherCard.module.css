@@ -5,6 +5,9 @@
   padding: 24px;
   width: 1184px;
   background: #fff;
+}
+
+.item:not(:last-child) {
   margin-bottom: 32px;
 }
 
