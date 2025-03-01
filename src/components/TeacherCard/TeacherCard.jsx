@@ -1,7 +1,10 @@
+import { useDispatch, useSelector } from "react-redux";
 import Icon from "../Icon/Icon";
 import { Reviews } from "../Reviews/Reviews";
 import { TrialLessonModal } from "../TrialLessonModal/TrialLessonModal";
 import css from "./TeacherCard.module.css";
+import { useEffect } from "react";
+import { addFavorites } from "../../redux/teachers/teachersSlice";
 
 export const TeacherCard = ({
   items,
@@ -10,6 +13,25 @@ export const TeacherCard = ({
   bookTrial,
   setBookTrial,
 }) => {
+  const dispatch = useDispatch();
+  const { favorite } = useSelector((state) => state.teachers);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  useEffect(() => {
+    const savedFavorites = JSON.parse(localStorage.getItem("teacher")) || [];
+    if (Array.isArray(savedFavorites)) {
+      savedFavorites.forEach((id) => dispatch(addFavorites(id)));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    localStorage.setItem("teacher", JSON.stringify(favorite || []));
+  }, [favorite]);
+
+  function addFavorite(id) {
+    dispatch(addFavorites(id));
+  }
+
   return (
     <>
       <ul className={css.list}>
@@ -30,6 +52,8 @@ export const TeacherCard = ({
           }) => {
             const isOpen = readMoreBtn === avatar_url;
             const isBookTrialOpen = bookTrial === avatar_url;
+            const isFavorite = favorite.includes(avatar_url);
+
             return (
               <li key={avatar_url} className={css.item}>
                 <img src={avatar_url} alt="Teacher" className={css.image} />
@@ -67,12 +91,21 @@ export const TeacherCard = ({
                         Price / 1 hour:
                         <span className={css.price}> {price_per_hour}$</span>
                       </p>
-                      <Icon
-                        id="icon-heart"
-                        width={26}
-                        height={26}
-                        className={css.iconHeart}
-                      />
+                      <button
+                        className={css.heartButton}
+                        onClick={() => addFavorite(avatar_url)}
+                      >
+                        <Icon
+                          id="icon-heart"
+                          width={26}
+                          height={26}
+                          className={
+                            isFavorite && isLoggedIn
+                              ? css.iconHeartFilled
+                              : css.iconHeart
+                          }
+                        />
+                      </button>
                     </div>
                   </div>
                   <h2 className={css.title}>

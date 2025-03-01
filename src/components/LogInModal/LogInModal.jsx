@@ -4,7 +4,7 @@ import css from "./LogInModal.module.css";
 import Icon from "../Icon/Icon";
 import * as Yup from "yup";
 import { Loader } from "../Loader/Loader";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/auth/operations";
 
@@ -34,9 +34,8 @@ export const LogInModal = ({ onClose }) => {
       await validationSchema.validate(formData, { abortEarly: false });
       const user = await dispatch(loginUser(formData)).unwrap();
       console.log("User logged in successfully:", user);
-      // setErrors({});
+      setErrors({});
       form.reset();
-      toast.success("You are succesfully logged in!");
       onClose();
     } catch (error) {
       if (error.inner) {
@@ -46,8 +45,6 @@ export const LogInModal = ({ onClose }) => {
           formattedErrors[err.path] = err.message;
         });
         setErrors(formattedErrors);
-      } else {
-        toast.error(error.message || "Something went wrong. Try again.");
       }
     } finally {
       setLoading(false);

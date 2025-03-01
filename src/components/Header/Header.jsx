@@ -29,6 +29,11 @@ export const Header = () => {
           <NavLink to="/teachers" className={css.link}>
             Teachers
           </NavLink>
+          {isLoggedIn && (
+            <NavLink to="/favorites" className={css.link}>
+              Favorites
+            </NavLink>
+          )}
         </div>
         {isLoggedIn ? (
           <AuthNav />

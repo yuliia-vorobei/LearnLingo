@@ -1,12 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
   updateProfile,
 } from "firebase/auth";
 import { auth, db } from "../../database/firebaseConfig";
-import { get, ref, set } from "firebase/database";
+import { ref, set } from "firebase/database";
 import toast from "react-hot-toast";
+import { clearUser, setUser } from "./authSlice";
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -31,7 +34,7 @@ export const registerUser = createAsyncThunk(
 
       return {
         user: { name: formData.name, email: formData.email },
-        token: user.accessToken,
+        token: await user.getIdToken(),
       };
     } catch (error) {
       toast.error(error);
@@ -51,16 +54,6 @@ export const loginUser = createAsyncThunk(
       );
       const user = userCredential.user;
       const name = user.displayName;
-
-      const userRef = ref(db, `users/${user.uid}`);
-      const snapshot = await get(userRef);
-
-      if (snapshot.exists()) {
-        toast.success(`Welcome back, ${snapshot.val().name}!`);
-      } else {
-        toast.error("User data is not found");
-      }
-
       console.log("User logged in:", user);
 
       return {
@@ -68,8 +61,45 @@ export const loginUser = createAsyncThunk(
         token: user.accessToken,
       };
     } catch (error) {
-      toast.error(error.message || "Something went wrong");
+      toast.error("Something went wrong");
       return rejectWithValue(error.message);
     }
+  }
+);
+
+export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  try {
+    await signOut(auth);
+    return {};
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+export const refreshUser = createAsyncThunk(
+  "auth/refresh",
+  async (_, { dispatch, rejectWithValue }) => {
+    return new Promise((resolve) => {
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          dispatch(clearUser());
+          return resolve(rejectWithValue("No authenticated user found"));
+        }
+
+        try {
+          const token = await user.getIdToken();
+          dispatch(
+            setUser({ name: user.displayName, email: user.email, token })
+          );
+          resolve({
+            user: { name: user.displayName, email: user.email },
+            token,
+          });
+        } catch (error) {
+          dispatch(clearUser());
+          resolve(rejectWithValue(error.message));
+        }
+      });
+    });
   }
 );

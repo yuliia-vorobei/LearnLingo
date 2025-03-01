@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchTeachersInfo } from "./operations";
+import { logout } from "../auth/operations";
 
 const teachersSlice = createSlice({
   name: "teachers",
@@ -8,11 +9,20 @@ const teachersSlice = createSlice({
     lastKey: null,
     isLoading: false,
     error: null,
+    favorite: [],
   },
   reducers: {
     resetTeachers: (state) => {
       state.items = [];
       state.lastKey = null;
+    },
+    addFavorites(state, action) {
+      const itemId = action.payload;
+      if (state.favorite.includes(itemId)) {
+        state.favorite = state.favorite.filter((id) => id !== itemId);
+      } else {
+        state.favorite.push(itemId);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -23,7 +33,7 @@ const teachersSlice = createSlice({
       .addCase(fetchTeachersInfo.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-
+        state.favorite = state.favorite || [];
         // Get new teachers
         const newTeachers = action.payload.items;
 
@@ -39,7 +49,15 @@ const teachersSlice = createSlice({
         state.items = [...state.items, ...uniqueTeachers];
         state.lastKey = action.payload.lastKey;
       })
-
+      .addCase(logout.fulfilled, () => {
+        return {
+          items: [],
+          lastKey: null,
+          isLoading: false,
+          error: null,
+          favorite: [],
+        };
+      })
       .addCase(fetchTeachersInfo.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
@@ -47,5 +65,5 @@ const teachersSlice = createSlice({
   },
 });
 
-export const { resetTeachers } = teachersSlice.actions;
+export const { resetTeachers, addFavorites } = teachersSlice.actions;
 export default teachersSlice.reducer;

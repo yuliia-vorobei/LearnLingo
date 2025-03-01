@@ -8,13 +8,24 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import teachersSlice from "./teachers/teachersSlice";
-import authSlice from "./auth/authSlice";
+import teacherReducer from "./teachers/teachersSlice";
+import authReducer from "./auth/authSlice";
+import persistReducer from "redux-persist/es/persistReducer";
+import storage from "redux-persist/lib/storage";
+
+const persistedAuthReducer = persistReducer(
+  {
+    key: "Authtoken",
+    storage,
+    whitelist: ["token"],
+  },
+  authReducer
+);
 
 export const store = configureStore({
   reducer: {
-    teachers: teachersSlice,
-    auth: authSlice,
+    teachers: teacherReducer,
+    auth: persistedAuthReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
