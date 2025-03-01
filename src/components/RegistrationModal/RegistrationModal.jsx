@@ -35,15 +35,11 @@ export const RegistrationModal = ({ onClose }) => {
       password: form.password.value.trim(),
     };
 
-    console.log("Submitting form data:", formData);
-
     try {
       await validationSchema.validate(formData, { abortEarly: false });
       const user = await dispatch(registerUser(formData)).unwrap();
-      console.log("User registered successfully:", user);
       form.reset();
       onClose();
-      console.log("Modal should close now");
     } catch (error) {
       if (error.inner) {
         // Yup validation errors

@@ -33,7 +33,6 @@ export const LogInModal = ({ onClose }) => {
     try {
       await validationSchema.validate(formData, { abortEarly: false });
       const user = await dispatch(loginUser(formData)).unwrap();
-      console.log("User logged in successfully:", user);
       setErrors({});
       form.reset();
       onClose();

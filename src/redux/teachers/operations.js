@@ -31,8 +31,6 @@ export const fetchTeachersInfo = createAsyncThunk(
       const lastKey =
         filteredKeys.length > 0 ? filteredKeys[filteredKeys.length - 1] : null;
 
-      console.log("Current startKey:", startKey);
-      console.log("Fetching URL:", url);
       return { items: filteredItems, lastKey };
     } catch (error) {
       //   error.status === 404 && toast.error("Not found");

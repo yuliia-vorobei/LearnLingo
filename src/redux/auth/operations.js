@@ -30,8 +30,6 @@ export const registerUser = createAsyncThunk(
         createdAt: new Date().toISOString(),
       });
 
-      console.log("User registered:", user);
-
       return {
         user: { name: formData.name, email: formData.email },
         token: await user.getIdToken(),
@@ -54,7 +52,6 @@ export const loginUser = createAsyncThunk(
       );
       const user = userCredential.user;
       const name = user.displayName;
-      console.log("User logged in:", user);
 
       return {
         user: { email: formData.email, name: name || "Anonymous" },
