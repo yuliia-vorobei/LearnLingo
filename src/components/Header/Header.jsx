@@ -21,8 +21,8 @@ export const Header = () => {
   return (
     <header className={css.header}>
       <Logo />
-      <nav className={css.linkContainer}>
-        <div className={css.linkContainerItem}>
+      <nav className={css.nav}>
+        <div className={css.linkContainer}>
           <NavLink to="/" className={css.link}>
             Home
           </NavLink>
@@ -35,31 +35,35 @@ export const Header = () => {
             </NavLink>
           )}
         </div>
-        {isLoggedIn ? (
-          <AuthNav />
-        ) : (
-          <div className={css.buttonContainer}>
-            <button className={css.buttonContainerItem} onClick={handleOpen}>
-              <Icon
-                id="icon-logo"
-                width={20}
-                height={20}
-                className={css.icon}
-              />
-              Log in
-            </button>
-            {isModalOpenLogIn && <LogInModal onClose={handleClose} />}
-            <button
-              className={css.registrationButton}
-              onClick={handleOpenRegistration}
-            >
-              Registration
-            </button>
-            {isModalOpenRegistration && (
-              <RegistrationModal onClose={handleCloseRegistration} />
-            )}
-          </div>
-        )}
+      </nav>
+      <nav className={css.nav}>
+        <div className={css.authContainer}>
+          {isLoggedIn ? (
+            <AuthNav />
+          ) : (
+            <div className={css.buttonContainer}>
+              <button className={css.buttonContainerItem} onClick={handleOpen}>
+                <Icon
+                  id="icon-logo"
+                  width={20}
+                  height={20}
+                  className={css.icon}
+                />
+                Log in
+              </button>
+              {isModalOpenLogIn && <LogInModal onClose={handleClose} />}
+              <button
+                className={css.registrationButton}
+                onClick={handleOpenRegistration}
+              >
+                Registration
+              </button>
+              {isModalOpenRegistration && (
+                <RegistrationModal onClose={handleCloseRegistration} />
+              )}
+            </div>
+          )}
+        </div>
       </nav>
     </header>
   );

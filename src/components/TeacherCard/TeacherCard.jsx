@@ -3,8 +3,9 @@ import Icon from "../Icon/Icon";
 import { Reviews } from "../Reviews/Reviews";
 import { TrialLessonModal } from "../TrialLessonModal/TrialLessonModal";
 import css from "./TeacherCard.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { addFavorites } from "../../redux/teachers/teachersSlice";
+import { LogInModal } from "../LogInModal/LogInModal";
 
 export const TeacherCard = ({
   items,
@@ -13,6 +14,10 @@ export const TeacherCard = ({
   bookTrial,
   setBookTrial,
 }) => {
+  const [isModalOpenLogIn, setIsModalOpenLogIn] = useState(false);
+  const handleOpen = () => setIsModalOpenLogIn(true);
+  const handleClose = () => setIsModalOpenLogIn(false);
+
   const dispatch = useDispatch();
   const { favorite } = useSelector((state) => state.teachers);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -91,21 +96,40 @@ export const TeacherCard = ({
                         Price / 1 hour:
                         <span className={css.price}> {price_per_hour}$</span>
                       </p>
-                      <button
-                        className={css.heartButton}
-                        onClick={() => addFavorite(avatar_url)}
-                      >
-                        <Icon
-                          id="icon-heart"
-                          width={26}
-                          height={26}
-                          className={
-                            isFavorite && isLoggedIn
-                              ? css.iconHeartFilled
-                              : css.iconHeart
-                          }
-                        />
-                      </button>
+                      {!isLoggedIn || isModalOpenLogIn ? (
+                        <button
+                          className={css.heartButton}
+                          onClick={handleOpen}
+                        >
+                          <Icon
+                            id="icon-heart"
+                            width={26}
+                            height={26}
+                            className={
+                              isFavorite && isLoggedIn
+                                ? css.iconHeartFilled
+                                : css.iconHeart
+                            }
+                          />
+                        </button>
+                      ) : (
+                        <button
+                          className={css.heartButton}
+                          onClick={() => addFavorite(avatar_url)}
+                        >
+                          <Icon
+                            id="icon-heart"
+                            width={26}
+                            height={26}
+                            className={
+                              isFavorite && isLoggedIn
+                                ? css.iconHeartFilled
+                                : css.iconHeart
+                            }
+                          />
+                        </button>
+                      )}
+                      {isModalOpenLogIn && <LogInModal onClose={handleClose} />}
                     </div>
                   </div>
                   <h2 className={css.title}>
@@ -151,7 +175,9 @@ export const TeacherCard = ({
                   {!isBookTrialOpen && (
                     <button
                       className={css.button}
-                      onClick={() => setBookTrial(isOpen ? null : avatar_url)}
+                      onClick={() =>
+                        setBookTrial(isBookTrialOpen ? null : avatar_url)
+                      }
                     >
                       Book trial lesson
                     </button>
@@ -161,7 +187,9 @@ export const TeacherCard = ({
                       name={name}
                       surname={surname}
                       avatar={avatar_url}
-                      onClose={() => setBookTrial(isOpen ? avatar_url : null)}
+                      onClose={() =>
+                        setBookTrial(isBookTrialOpen ? null : avatar_url)
+                      }
                     />
                   )}
                 </div>

@@ -1,11 +1,6 @@
-/* body {
-  padding: 0 64px;
-} */
-
 .container {
-  padding: 98px 64px;
-  width: 720px;
-  height: 530px;
+  padding: 98px 108px 98px 64px;
+  min-width: 720px;
   background: #f8f8f8;
   border-radius: 30px;
 }
@@ -17,6 +12,7 @@
   letter-spacing: -0.02em;
   color: #121417;
   margin: 0;
+  max-width: 548px;
 }
 
 .languageSpan {

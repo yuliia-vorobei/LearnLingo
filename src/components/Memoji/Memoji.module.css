@@ -1,6 +1,6 @@
 .container {
   border-radius: 30px;
-  width: 568px;
+  min-width: 568px;
   height: 530px;
   background: #bfd6ea;
   position: relative;

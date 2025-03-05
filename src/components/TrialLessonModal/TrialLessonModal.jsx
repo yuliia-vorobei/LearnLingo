@@ -12,9 +12,7 @@ export const TrialLessonModal = ({ name, surname, avatar, onClose }) => {
       .min(3, "Name must be at least 3 characters")
       .required("Name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    phone: Yup.string()
-      .matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number")
-      .required("Phone number is required"),
+    phone: Yup.number().min(12).required("Phone number is required"),
   });
 
   const handlePurposeChange = (event) => {
@@ -26,7 +24,7 @@ export const TrialLessonModal = ({ name, surname, avatar, onClose }) => {
     const formData = {
       name: form.name.value.trim(),
       email: form.email.value.trim(),
-      phone: form.phone.value.trim,
+      phone: form.phone.value.trim(),
     };
 
     try {
@@ -125,6 +123,7 @@ export const TrialLessonModal = ({ name, surname, avatar, onClose }) => {
             type="text"
             name="name"
             placeholder="Full Name"
+            autoComplete="name"
             className={css.input}
           ></input>
           {errors.name && <p className={css.error}>{errors.name}</p>}
@@ -133,6 +132,7 @@ export const TrialLessonModal = ({ name, surname, avatar, onClose }) => {
             type="email"
             name="email"
             placeholder="Email"
+            autoComplete="email"
             className={css.input}
           ></input>
           {errors.email && <p className={css.error}>{errors.email}</p>}
@@ -141,9 +141,12 @@ export const TrialLessonModal = ({ name, surname, avatar, onClose }) => {
             type="tel"
             name="phone"
             placeholder="Phone number"
+            autoComplete="tel"
             className={css.input}
           ></input>
-          {errors.phone && <p className={css.error}>{errors.phone}</p>}
+          {errors.phone && (
+            <p className={css.error}>Phone number is required</p>
+          )}
 
           <button type="submit" className={css.bookBtn}>
             Book

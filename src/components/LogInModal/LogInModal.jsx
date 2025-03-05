@@ -61,6 +61,7 @@ export const LogInModal = ({ onClose }) => {
           type="email"
           name="email"
           placeholder="Email"
+          autoComplete="email"
           className={css.input}
         ></input>
         {errors.email && <p className={css.error}>{errors.email}</p>}
@@ -70,6 +71,7 @@ export const LogInModal = ({ onClose }) => {
             type={visiblePassword ? "text" : "password"}
             name="password"
             placeholder="Password"
+            autoComplete="password"
             className={css.inputPassword}
           ></input>
           <button
