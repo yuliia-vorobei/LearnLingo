@@ -6,12 +6,17 @@
   display: flex;
   gap: 100px;
   margin-bottom: 32px;
+  margin-right: auto;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
 }
 
 .list {
   display: flex;
   gap: 16px;
   align-items: center;
+  justify-content: center;
 }
 
 .number {

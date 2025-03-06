@@ -1,9 +1,14 @@
 .container {
   margin: 0 64px;
+  align-items: center;
+  /* justify-content: center; */
+  /* display: flex; */
 }
 
 .list {
-  display: flex;
   gap: 24px;
+  display: flex;
   margin-bottom: 24px;
+  align-items: center;
+  justify-content: center;
 }

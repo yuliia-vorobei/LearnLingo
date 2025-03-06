@@ -10,7 +10,6 @@ const HomePage = () => {
         <Advantages />
         <Memoji />
       </div>
-
       <Description />
     </div>
   );

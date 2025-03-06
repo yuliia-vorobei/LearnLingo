@@ -2,7 +2,8 @@
   width: 1184px;
   display: flex;
   align-items: center;
-  margin: 20px 128px;
+  padding: 20px;
+  margin: 0 auto;
   justify-content: space-between;
 }
 
