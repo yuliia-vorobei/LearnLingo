@@ -32,14 +32,20 @@ const TeachersPage = () => {
       {error && <p>Whoops something went wrong</p>}
 
       {items.length > 0 && (
-        <TeacherCard
-          items={items}
-          readMoreBtn={readMoreBtn}
-          setReadMoreBtn={setReadMoreBtn}
-          bookTrial={bookTrial}
-          setBookTrial={setBookTrial}
-        />
+        <ul className={css.list}>
+          {items.map((teacher) => (
+            <TeacherCard
+              key={teacher.avatar_url}
+              {...teacher}
+              readMoreBtn={readMoreBtn}
+              setReadMoreBtn={setReadMoreBtn}
+              bookTrial={bookTrial}
+              setBookTrial={setBookTrial}
+            />
+          ))}
+        </ul>
       )}
+
       {isLoading ? (
         <Loader />
       ) : (

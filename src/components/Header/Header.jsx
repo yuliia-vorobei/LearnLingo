@@ -7,6 +7,7 @@ import { LogInModal } from "../LogInModal/LogInModal";
 import { RegistrationModal } from "../RegistrationModal/RegistrationModal";
 import { useSelector } from "react-redux";
 import { AuthNav } from "../AuthNav/AuthNav";
+import clsx from "clsx";
 
 export const Header = () => {
   const [isModalOpenLogIn, setIsModalOpenLogIn] = useState(false);
@@ -18,19 +19,21 @@ export const Header = () => {
   const handleOpenRegistration = () => setIsModalOpenRegistration(true);
   const handleCloseRegistration = () => setIsModalOpenRegistration(false);
 
+  const activeClass = ({ isActive }) => clsx(css.link, isActive && css.active);
+
   return (
     <header className={css.header}>
       <Logo />
       <nav className={css.nav}>
         <div className={css.linkContainer}>
-          <NavLink to="/" className={css.link}>
+          <NavLink to="/" className={activeClass}>
             Home
           </NavLink>
-          <NavLink to="/teachers" className={css.link}>
+          <NavLink to="/teachers" className={activeClass}>
             Teachers
           </NavLink>
           {isLoggedIn && (
-            <NavLink to="/favorites" className={css.link}>
+            <NavLink to="/favorites" className={activeClass}>
               Favorites
             </NavLink>
           )}

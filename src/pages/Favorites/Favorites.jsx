@@ -1,18 +1,38 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { TeacherCard } from "../../components/TeacherCard/TeacherCard";
 import css from "./Favorites.module.css";
-import { fetchTeachersInfo } from "../../redux/teachers/operations";
+import { useState } from "react";
 
 export const Favorites = () => {
-  // const dispatch = useDispatch();
-  const { favorite } = useSelector((state) => state.teachers);
+  const { favoriteItems } = useSelector((state) => state.favorite);
+  const [readMoreBtn, setReadMoreBtn] = useState(null);
+  const [bookTrial, setBookTrial] = useState(null);
+  const [loadMore, setLoadMore] = useState(4);
 
-  useEffect(() => {
-    localStorage.setItem("teacher", JSON.stringify(favorite || []));
-  }, [favorite]);
+  const loadMoreBtn = () => setLoadMore((prevPage) => prevPage + 3);
 
-  return <div className={css.container}></div>;
+  return (
+    <div className={css.container}>
+      {favoriteItems.length > 0 &&
+        favoriteItems
+          .slice(0, loadMore)
+          .map((teacher) => (
+            <TeacherCard
+              key={teacher.avatar_url}
+              {...teacher}
+              readMoreBtn={readMoreBtn}
+              setReadMoreBtn={setReadMoreBtn}
+              bookTrial={bookTrial}
+              setBookTrial={setBookTrial}
+            />
+          ))}
+      {loadMore < favoriteItems.length && (
+        <button onClick={loadMoreBtn} className={css.button}>
+          Load More
+        </button>
+      )}
+    </div>
+  );
 };
 
 export default Favorites;

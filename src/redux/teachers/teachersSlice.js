@@ -16,14 +16,6 @@ const teachersSlice = createSlice({
       state.items = [];
       state.lastKey = null;
     },
-    addFavorites(state, action) {
-      const itemId = action.payload;
-      if (state.favorite.includes(itemId)) {
-        state.favorite = state.favorite.filter((id) => id !== itemId);
-      } else {
-        state.favorite.push(itemId);
-      }
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -33,7 +25,6 @@ const teachersSlice = createSlice({
       .addCase(fetchTeachersInfo.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.favorite = state.favorite || [];
         // Get new teachers
         const newTeachers = action.payload.items;
 
@@ -65,5 +56,5 @@ const teachersSlice = createSlice({
   },
 });
 
-export const { resetTeachers, addFavorites } = teachersSlice.actions;
+export const { resetTeachers } = teachersSlice.actions;
 export default teachersSlice.reducer;
