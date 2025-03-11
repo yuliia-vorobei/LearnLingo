@@ -5,6 +5,7 @@ import { TeacherCard } from "../../components/TeacherCard/TeacherCard";
 import { Loader } from "../../components/Loader/Loader";
 import css from "./TeachersPage.module.css";
 import { resetTeachers } from "../../redux/teachers/teachersSlice";
+import { FilterComponent } from "../../components/FilterComponent/FilterComponent";
 
 const TeachersPage = () => {
   const [readMoreBtn, setReadMoreBtn] = useState(null);
@@ -26,11 +27,14 @@ const TeachersPage = () => {
       dispatch(fetchTeachersInfo({ limit: 4, startKey: lastKey }));
     }
   };
+  useEffect(() => {
+    console.log("Last Key:", lastKey);
+  }, [lastKey]);
 
   return (
     <div className={css.container}>
       {error && <p>Whoops something went wrong</p>}
-
+      <FilterComponent />
       {items.length > 0 && (
         <ul className={css.list}>
           {items.map((teacher) => (
@@ -45,15 +49,11 @@ const TeachersPage = () => {
           ))}
         </ul>
       )}
-
-      {isLoading ? (
-        <Loader />
-      ) : (
-        lastKey && (
-          <button onClick={loadMore} className={css.button}>
-            Load More
-          </button>
-        )
+      {isLoading && <Loader />}
+      {lastKey !== null && (
+        <button onClick={loadMore} className={css.button}>
+          Load More
+        </button>
       )}
     </div>
   );

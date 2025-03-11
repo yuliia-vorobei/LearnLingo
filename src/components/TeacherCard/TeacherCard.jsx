@@ -130,12 +130,12 @@ export const TeacherCard = ({
             </div>
           </div>
           <h3 className={css.title}>
-            {/* {[name, surname].filter(Boolean).join(" ")} */}
+            {[name, surname].filter(Boolean).join(" ")}
           </h3>
           <p className={css.additionalInfo}>
             Speaks:{" "}
             <span className={css.additionalInfoItem}>
-              {/* {languages.join(", ")} */}
+              {languages.join(", ")}
             </span>
           </p>
           <p className={css.additionalInfo}>
@@ -159,11 +159,11 @@ export const TeacherCard = ({
           {isOpen && <Reviews reviews={reviews} experience={experience} />}
 
           <div className={css.levelContainer}>
-            {/* {levels.map((level, index) => (
-                <span key={index} className={css.languageLevel}>
-                  #{level}
-                </span>
-              ))} */}
+            {levels.map((level, index) => (
+              <span key={index} className={css.languageLevel}>
+                #{level}
+              </span>
+            ))}
           </div>
           {!isBookTrialOpen && (
             <button

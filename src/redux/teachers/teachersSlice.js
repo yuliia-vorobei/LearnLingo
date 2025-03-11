@@ -38,6 +38,7 @@ const teachersSlice = createSlice({
 
         // Append only unique teachers
         state.items = [...state.items, ...uniqueTeachers];
+
         state.lastKey = action.payload.lastKey;
       })
       .addCase(logout.fulfilled, () => {

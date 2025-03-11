@@ -30,6 +30,9 @@ export const fetchTeachersInfo = createAsyncThunk(
 
       const lastKey =
         filteredKeys.length > 0 ? filteredKeys[filteredKeys.length - 1] : null;
+      if (filteredItems.length === 0) {
+        return { items: [], lastKey: null };
+      }
 
       return { items: filteredItems, lastKey };
     } catch (error) {

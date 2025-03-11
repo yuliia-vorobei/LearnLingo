@@ -1,0 +1,53 @@
+.form {
+  display: flex;
+  gap: 20px;
+  /* position: absolute; */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 129%;
+  color: #8a8a89;
+  border: none;
+  margin-bottom: 8px;
+}
+
+.field {
+  /* appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none; */
+  border-radius: 14px;
+  padding-left: 14px;
+  background: #fff;
+  border: none;
+  padding-right: 14px;
+  min-width: 124px;
+  height: 48px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 111%;
+  color: #121417;
+}
+
+.field:focus,
+.field:active,
+.field:hover {
+  outline: none;
+}
+
+/* .icon {
+  fill: none;
+  stroke: #121417;
+  position: relative;
+}
+
+.icon:first-child {
+  top: -37%;
+  right: -80%;
+} */
