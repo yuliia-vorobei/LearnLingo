@@ -15,6 +15,7 @@ const teachersSlice = createSlice({
     resetTeachers: (state) => {
       state.items = [];
       state.lastKey = null;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -38,8 +39,11 @@ const teachersSlice = createSlice({
 
         // Append only unique teachers
         state.items = [...state.items, ...uniqueTeachers];
-
-        state.lastKey = action.payload.lastKey;
+        if (newTeachers.length === 0 || !action.payload.lastKey) {
+          state.lastKey = null; // No more items, set lastKey to null
+        } else {
+          state.lastKey = action.payload.lastKey; // Update lastKey if more items exist
+        }
       })
       .addCase(logout.fulfilled, () => {
         return {

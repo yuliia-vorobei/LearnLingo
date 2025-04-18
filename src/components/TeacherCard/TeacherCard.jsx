@@ -3,9 +3,9 @@ import Icon from "../Icon/Icon";
 import { Reviews } from "../Reviews/Reviews";
 import { TrialLessonModal } from "../TrialLessonModal/TrialLessonModal";
 import css from "./TeacherCard.module.css";
-import { useEffect, useState } from "react";
 import { LogInModal } from "../LogInModal/LogInModal";
 import { toggleFavorite } from "../../redux/favorite/favoriteSlice";
+import { useState } from "react";
 
 export const TeacherCard = ({
   avatar_url,
@@ -37,9 +37,6 @@ export const TeacherCard = ({
   const isFavorite = favoriteItems.some(
     (item) => item.avatar_url === avatar_url
   );
-  useEffect(() => {
-    localStorage.setItem("teacher", JSON.stringify(favoriteItems || []));
-  }, [favoriteItems]);
 
   function addFavorite(teacher) {
     dispatch(toggleFavorite(teacher));
@@ -47,7 +44,7 @@ export const TeacherCard = ({
 
   return (
     <>
-      <li key={avatar_url} className={css.item}>
+      <li key={`${name}-${surname}`} className={css.item}>
         <img src={avatar_url} alt="Teacher" className={css.image} />
         <div className={css.infoContainer}>
           <div className={css.infoContainerItem}>
@@ -135,7 +132,9 @@ export const TeacherCard = ({
           <p className={css.additionalInfo}>
             Speaks:{" "}
             <span className={css.additionalInfoItem}>
-              {languages.join(", ")}
+              {Array.isArray(languages)
+                ? languages.join(", ")
+                : "No languages available"}
             </span>
           </p>
           <p className={css.additionalInfo}>
@@ -159,11 +158,15 @@ export const TeacherCard = ({
           {isOpen && <Reviews reviews={reviews} experience={experience} />}
 
           <div className={css.levelContainer}>
-            {levels.map((level, index) => (
-              <span key={index} className={css.languageLevel}>
-                #{level}
-              </span>
-            ))}
+            {Array.isArray(levels) && levels.length > 0 ? (
+              levels.map((level, index) => (
+                <span key={index} className={css.languageLevel}>
+                  #{level}
+                </span>
+              ))
+            ) : (
+              <span>No levels available</span> // Fallback if no levels are available
+            )}
           </div>
           {!isBookTrialOpen && (
             <button

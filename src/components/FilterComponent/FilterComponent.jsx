@@ -1,83 +1,150 @@
 import { Field, Form, Formik } from "formik";
 import { useId } from "react";
-import { useSelector } from "react-redux";
-import { selectTeachers } from "../../redux/teachers/selectors";
+import { useDispatch } from "react-redux";
 import css from "./FilterComponent.module.css";
-// import Icon from "../Icon/Icon";
+import { changeFilter } from "../../redux/filter/filterSlice";
+import { fetchTeachersInfo } from "../../redux/teachers/operations";
 
 export const FilterComponent = () => {
-  const teachers = useSelector(selectTeachers);
-  const uniqueLanguages = [
-    ...new Set(teachers.flatMap((teacher) => teacher.languages)),
+  const dispatch = useDispatch();
+
+  const languages = [
+    { value: "French", label: "French" },
+    { value: "German", label: "German" },
+    { value: "English", label: "English" },
+    { value: "Spanish", label: "Spanish" },
+    { value: "Mandarin Chinese", label: "Mandarin Chinese" },
+    { value: "French", label: "French" },
+    { value: "Italian", label: "Italian" },
+    { value: "Korean", label: "Korean" },
+    { value: "Vietnamese", label: "Vietnamese" },
   ];
+
+  const levels = [
+    { value: "A1 Beginner", label: "A1 Beginner" },
+    { value: "A2 Elementary", label: "A2 Elementary" },
+    { value: "B1 Intermediate", label: "B1 Intermediate" },
+    { value: "B2 Upper-Intermediate", label: "B2 Upper-Intermediate" },
+    { value: "C1 Advanced", label: "C1 Advanced" },
+    { value: "C2 Proficient", label: "C2 Proficient" },
+  ];
+
+  const price_per_hour = [
+    { value: "10", label: "10 $" },
+    { value: "20", label: "20 $" },
+    { value: "30", label: "30 $" },
+    { value: "40", label: "40 $" },
+  ];
+
+  // const price = price_per_hour.map((p) => p.value);
+  // console.log(price);
 
   const languageFieldId = useId();
   const knowledgeFieldId = useId();
   const priceFieldId = useId();
 
   const initialValues = {
-    language: "French",
-    knowledge: "beginner",
-    price: "30",
+    languages: "",
+    levels: "",
+    price_per_hour: "",
   };
+
   const handleSubmit = (values) => {
-    console.log(values);
+    dispatch(changeFilter(values));
+    dispatch(fetchTeachersInfo({ filters: values }));
   };
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      <Form className={css.form}>
-        <div className={css.container}>
-          <label htmlFor={languageFieldId}>Languages</label>
-          <Field
-            as="select"
-            name="language"
-            id={languageFieldId}
-            className={css.field}
-          >
-            {uniqueLanguages.map((language, index) => (
-              <option key={index} value={language}>
-                {language}
-              </option>
-            ))}
-          </Field>
-          {/* <Icon id="icon-select" width={20} height={20} className={css.icon} /> */}
-        </div>
+      {({ values, handleChange, handleSubmit }) => {
+        return (
+          <Form className={css.form}>
+            <div className={css.container}>
+              <label htmlFor={languageFieldId}>Languages</label>
+              <Field
+                as="select"
+                name="languages"
+                id={languageFieldId}
+                className={css.field}
+                onChange={(e) => {
+                  handleChange(e);
+                  handleSubmit();
+                }}
+              >
+                {languages.map((language, index) => (
+                  <option
+                    key={`${language.value}-${index}`}
+                    value={language.value}
+                    className={
+                      values.languages === language.value
+                        ? css.activeOption
+                        : css.greyOption
+                    }
+                  >
+                    {language.label}
+                  </option>
+                ))}
+              </Field>
+            </div>
 
-        <div className={css.container}>
-          <label htmlFor={knowledgeFieldId}>Level of knowledge</label>
-          <Field
-            as="select"
-            name="knowledge"
-            id={knowledgeFieldId}
-            className={css.field}
-          >
-            <option value="beginner">A1 Beginner</option>
-            <option value="elementary">A2 Elementary</option>
-            <option value="intermediate">B1 Intermediate</option>
-            <option value="upperInterm">B2 Upper-Intermediate</option>
-            <option value="advanced">C1 Advanced</option>
-            <option value="proficient">C2 Proficient</option>
-          </Field>
-          {/* <Icon id="icon-select" width={20} height={20} className={css.icon} /> */}
-        </div>
+            <div className={css.container}>
+              <label htmlFor={knowledgeFieldId}>Level of knowledge</label>
+              <Field
+                as="select"
+                name="levels"
+                id={knowledgeFieldId}
+                className={css.field}
+                onChange={(e) => {
+                  handleChange(e);
+                  handleSubmit();
+                }}
+              >
+                {levels.map((level) => (
+                  <option
+                    key={level.value}
+                    value={level.value}
+                    className={
+                      values.levels === level.value
+                        ? css.activeOption
+                        : css.greyOption
+                    }
+                  >
+                    {level.label}
+                  </option>
+                ))}
+              </Field>
+            </div>
 
-        <div className={css.container}>
-          <label htmlFor={priceFieldId}>Price</label>
-          <Field
-            as="select"
-            name="price"
-            id={priceFieldId}
-            className={css.field}
-          >
-            <option value="10">10 $</option>
-            <option value="20">20 $</option>
-            <option value="30">30 $</option>
-            <option value="40">40 $</option>
-          </Field>
-          {/* <Icon id="icon-select" width={20} height={20} className={css.icon} /> */}
-        </div>
-      </Form>
+            <div className={css.container}>
+              <label htmlFor={priceFieldId}>Price</label>
+              <Field
+                as="select"
+                name="price_per_hour"
+                id={priceFieldId}
+                className={css.field}
+                onChange={(e) => {
+                  handleChange(e);
+                  handleSubmit();
+                }}
+              >
+                {price_per_hour.map((price) => (
+                  <option
+                    key={price.value}
+                    value={price.value}
+                    className={
+                      price.value === values.price
+                        ? css.activeOption
+                        : css.greyOption
+                    }
+                  >
+                    {price.label}
+                  </option>
+                ))}
+              </Field>
+            </div>
+          </Form>
+        );
+      }}
     </Formik>
   );
 };

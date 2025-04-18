@@ -11,6 +11,7 @@ import {
 import teacherReducer from "./teachers/teachersSlice";
 import authReducer from "./auth/authSlice";
 import favoriteReducer from "./favorite/favoriteSlice";
+import filtersReducer from "./filter/filterSlice";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
 
@@ -28,6 +29,7 @@ export const store = configureStore({
     teachers: teacherReducer,
     auth: persistedAuthReducer,
     favorite: favoriteReducer,
+    filters: filtersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

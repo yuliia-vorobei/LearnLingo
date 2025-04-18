@@ -1,26 +1,53 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchTeachersInfo } from "../teachers/operations";
+const getCurrentUser = () => localStorage.getItem("currentUser");
 
 const favoriteSlice = createSlice({
   name: "favorite",
   initialState: {
-    favoriteItems: JSON.parse(localStorage.getItem("favorites")) || [],
+    userId: getCurrentUser(),
+    favoriteItems: (() => {
+      const userId = getCurrentUser();
+      const allFavorites = JSON.parse(
+        localStorage.getItem("favoritesByUser") || "{}"
+      );
+      return allFavorites[userId] || [];
+    })(),
   },
   reducers: {
+    setUserId(state, action) {
+      state.userId = action.payload;
+      const allFavorites = JSON.parse(
+        localStorage.getItem("favoritesByUser") || "{}"
+      );
+
+      state.favoriteItems = allFavorites[state.userId] || [];
+    },
     toggleFavorite(state, action) {
       const teacher = action.payload;
+      const userId = state.userId;
+      const allFavorites = JSON.parse(
+        localStorage.getItem("favoritesByUser") || "{}"
+      );
+      const currentFavorites = allFavorites[userId] || [];
+      console.log(currentFavorites);
+
       const exists = state.favoriteItems.some(
         (item) => item.avatar_url === teacher.avatar_url
       );
+      let updatedFavorites;
 
       if (exists) {
-        state.favoriteItems = state.favoriteItems.filter(
+        updatedFavorites = currentFavorites.filter(
           (item) => item.avatar_url !== teacher.avatar_url
         );
       } else {
-        state.favoriteItems = [...state.favoriteItems, teacher];
+        updatedFavorites = [...currentFavorites, teacher];
       }
-      localStorage.setItem("favorites", JSON.stringify(state.favoriteItems));
+      state.favoriteItems = updatedFavorites;
+      allFavorites[userId] = updatedFavorites;
+
+      localStorage.setItem("favoritesByUser", JSON.stringify(allFavorites));
     },
   },
   extraReducers: (builder) => {
@@ -30,5 +57,5 @@ const favoriteSlice = createSlice({
   },
 });
 
-export const { toggleFavorite } = favoriteSlice.actions;
+export const { toggleFavorite, setUserId } = favoriteSlice.actions;
 export default favoriteSlice.reducer;
