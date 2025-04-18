@@ -30,7 +30,6 @@ const favoriteSlice = createSlice({
         localStorage.getItem("favoritesByUser") || "{}"
       );
       const currentFavorites = allFavorites[userId] || [];
-      console.log(currentFavorites);
 
       const exists = state.favoriteItems.some(
         (item) => item.avatar_url === teacher.avatar_url

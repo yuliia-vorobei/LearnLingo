@@ -36,9 +36,6 @@ export const FilterComponent = () => {
     { value: "40", label: "40 $" },
   ];
 
-  // const price = price_per_hour.map((p) => p.value);
-  // console.log(price);
-
   const languageFieldId = useId();
   const knowledgeFieldId = useId();
   const priceFieldId = useId();

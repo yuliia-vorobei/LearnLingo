@@ -43,7 +43,7 @@ const TeachersPage = () => {
     <div className={css.container}>
       {error && <p>Whoops something went wrong</p>}
       <FilterComponent />
-      {items.length > 0 && (
+      {items.length > 0 ? (
         <ul>
           {items.map((teacher, index) => (
             <TeacherCard
@@ -56,6 +56,8 @@ const TeachersPage = () => {
             />
           ))}
         </ul>
+      ) : (
+        <p>Sorry, no teachers were found</p>
       )}
       {isLoading && <Loader />}
       {hasMoreItems && (

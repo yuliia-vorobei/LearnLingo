@@ -27,7 +27,6 @@ export const fetchTeachersInfo = createAsyncThunk(
           id: key,
           ...value,
         }));
-      console.log(response.data);
 
       if (startKey) {
         teachers.shift(); // removes the duplicate
